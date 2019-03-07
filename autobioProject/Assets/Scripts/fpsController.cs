@@ -71,4 +71,19 @@ public class fpsController : MonoBehaviour
         playerRigidBody.velocity = new Vector3(xZvelocity.x, playerRigidBody.velocity.y, xZvelocity.y);
     }
 
+    public void OnTriggerEnter (Collider tile)
+    {
+        if (tile.gameObject == tileManagement.Instance.currentTile.gameObject){
+            tileManagement.Instance.timerOn = false;
+        }
+         
+    }
+
+    public void OnTriggerExit(Collider tile)
+    {
+        if (tile.gameObject == tileManagement.Instance.currentTile.gameObject)
+        {
+            tileManagement.Instance.timerOn = true;
+        }
+    }
 }

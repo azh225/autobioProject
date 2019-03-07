@@ -20,15 +20,15 @@ public class tileColor : MonoBehaviour
     void Update()
     {
 
-        if (tileManagement.Instance.currentTile = this.gameObject)
-        {
-            colorOn = true;
-        }
+        //if (tileManagement.Instance.currentTile = this.gameObject)
+        //{
+        //    colorOn = true;
+        //}
 
-        else if (tileManagement.Instance.currentTile != this.gameObject)
-        {
-            colorOn = false; 
-        }
+        //else if (tileManagement.Instance.currentTile != this.gameObject)
+        //{
+        //    colorOn = false; 
+        //}
 
         if (colorOn == true)
         {
