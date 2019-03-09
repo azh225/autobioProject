@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class tileManagement : MonoBehaviour
 {
@@ -8,7 +9,10 @@ public class tileManagement : MonoBehaviour
 
     public float focusTime;
     public float focusTimeReset;
-    public bool timerOn; 
+    public bool timerOn;
+
+    public float focusTimeMax;
+    public float focusTimeMin; 
 
     public bool colorSwitch;
 
@@ -19,8 +23,10 @@ public class tileManagement : MonoBehaviour
     public bool tileComplete;
     public bool justFinishedTile;
 
+    public Material[] colors; 
     public Material defaultColor;
     public Material otherColor;
+    int colorIndex; 
 
     void Start()
     {
@@ -52,6 +58,7 @@ public class tileManagement : MonoBehaviour
         }
 
         if (focusTime < 0f){
+            focusTimeReset = Random.Range(focusTimeMin, focusTimeMax);
             focusTime = focusTimeReset;
         }
 
@@ -65,6 +72,8 @@ public class tileManagement : MonoBehaviour
             index = Random.Range(0, tiles.Count);
             currentTile = tiles[index];
             Debug.Log("" + currentTile.name);
+            colorIndex = Random.Range(0, colors.Length);
+            otherColor = colors[colorIndex];  
             currentTile.gameObject.GetComponent<Renderer>().material = otherColor; 
         }
     }
