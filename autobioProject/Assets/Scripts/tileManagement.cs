@@ -12,9 +12,12 @@ public class tileManagement : MonoBehaviour
 
     public bool colorSwitch;
 
-    public GameObject[] tiles;
+    public List<GameObject> tiles;
     public GameObject currentTile;
     int index;
+
+    public bool tileComplete;
+    public bool justFinishedTile;
 
     public Material defaultColor;
     public Material otherColor;
@@ -22,12 +25,28 @@ public class tileManagement : MonoBehaviour
     void Start()
     {
         Instance = this;
-        tiles = GameObject.FindGameObjectsWithTag("Tile");
-        timerOn = true; 
+        tiles = new List<GameObject>();
+        GameObject[] temps = GameObject.FindGameObjectsWithTag("Tile");
+        foreach(GameObject obj in temps){
+            tiles.Add(obj);
+        }
+        timerOn = true;
+        tileComplete = false;
+        justFinishedTile = false;
     }
 
     void Update()
     {
+        if (tileComplete == true){
+            tiles.Remove(currentTile);
+            Destroy(currentTile.gameObject);
+            currentTile = null;
+            timerOn = true;
+            focusTime = 0.5f; 
+            tileComplete = false;
+            justFinishedTile = true;
+        }
+
         if (timerOn == true){
             focusTime -= Time.deltaTime;
         }
@@ -36,14 +55,14 @@ public class tileManagement : MonoBehaviour
             focusTime = focusTimeReset;
         }
 
-        if (focusTime >= focusTimeReset - 1f){
+        if (focusTime >= focusTimeReset){
             colorSwitch = true;
             currentTile.gameObject.GetComponent<Renderer>().material = defaultColor; 
         }
 
-        if (focusTime <= focusTimeReset - 1f && colorSwitch == true){
+        if (focusTime <= focusTimeReset && colorSwitch == true){
             colorSwitch = false; 
-            index = Random.Range(0, tiles.Length);
+            index = Random.Range(0, tiles.Count);
             currentTile = tiles[index];
             Debug.Log("" + currentTile.name);
             currentTile.gameObject.GetComponent<Renderer>().material = otherColor; 

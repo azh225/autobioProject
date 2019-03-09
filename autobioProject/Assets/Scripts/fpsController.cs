@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class fpsController : MonoBehaviour
 {
@@ -11,20 +12,42 @@ public class fpsController : MonoBehaviour
     public float fpSide;
 
     public float mouseY; //select a variable, press f2, can change the name of your variable everywhere in the script
-    public float mouseX; // yaw is mouseX, pitch is mouseY
+    public float mouseX;
 
     public Vector3 inputVelocity;
     public float velocityModifier;
 
     public float jumpForce;
     public float groundCheck;
+
+    public bool percentTimer;
+    public float timeEnd;
+    public float timeAmount;
+    public Image timeBar;
+
     void Start()
     {
         playerRigidBody = GetComponent<Rigidbody>();
+        percentTimer = false; 
     }
 
     void Update()
     {
+        if (tileManagement.Instance.justFinishedTile){
+            percentTimer = false;
+        }
+        if (percentTimer){
+            timeBar.fillAmount = 1-(timeEnd - Time.time)/timeAmount;
+        }
+
+        else{
+            timeBar.fillAmount = 0;
+        }
+
+        if(percentTimer && Time.time > timeEnd){
+            tileManagement.Instance.tileComplete = true; 
+        }
+
         mouseX = Input.GetAxis("Mouse X");
         transform.Rotate(0, mouseX, 0);
 
@@ -64,7 +87,7 @@ public class fpsController : MonoBehaviour
 
     void FixedUpdate()
     {
-        playerRigidBody.velocity += inputVelocity * velocityModifier;//= inputVelocity * velocityModifier + (Physics.gravity * .69f);
+        playerRigidBody.velocity += inputVelocity * velocityModifier;
         Vector2 xZvelocity = new Vector2(playerRigidBody.velocity.x, playerRigidBody.velocity.z);
 
         xZvelocity = Vector2.ClampMagnitude(xZvelocity, 5f);
@@ -75,8 +98,10 @@ public class fpsController : MonoBehaviour
     {
         if (tile.gameObject == tileManagement.Instance.currentTile.gameObject){
             tileManagement.Instance.timerOn = false;
+            timeEnd = Time.time + timeAmount;
+            percentTimer = true;
+            tileManagement.Instance.justFinishedTile = false;
         }
-         
     }
 
     public void OnTriggerExit(Collider tile)
@@ -84,6 +109,7 @@ public class fpsController : MonoBehaviour
         if (tile.gameObject == tileManagement.Instance.currentTile.gameObject)
         {
             tileManagement.Instance.timerOn = true;
+            percentTimer = false; 
         }
     }
 }
