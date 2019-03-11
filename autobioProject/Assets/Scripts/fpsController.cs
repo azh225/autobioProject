@@ -38,7 +38,7 @@ public class fpsController : MonoBehaviour
         }
         if (percentTimer){
             timeBar.fillAmount = 1-(timeEnd - Time.time)/timeAmount;
-        }
+        } 
 
         else{
             timeBar.fillAmount = 0;

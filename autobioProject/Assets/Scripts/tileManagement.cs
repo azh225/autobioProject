@@ -23,19 +23,26 @@ public class tileManagement : MonoBehaviour
     public bool tileComplete;
     public bool justFinishedTile;
 
-    public Material[] colors; 
+    public List<string> tasks = new List<string>(); 
+    public string currentTask;
+    int taskIndex;
+    public Text thoughts; 
+
+    public Material[] colors;
     public Material defaultColor;
     public Material otherColor;
-    int colorIndex; 
+    int colorIndex;
 
     void Start()
     {
         Instance = this;
+
         tiles = new List<GameObject>();
         GameObject[] temps = GameObject.FindGameObjectsWithTag("Tile");
         foreach(GameObject obj in temps){
             tiles.Add(obj);
         }
+
         timerOn = true;
         tileComplete = false;
         justFinishedTile = false;
@@ -43,8 +50,11 @@ public class tileManagement : MonoBehaviour
 
     void Update()
     {
+        thoughts.text = currentTask; 
+
         if (tileComplete == true){
             tiles.Remove(currentTile);
+            tasks.Remove(currentTask); 
             Destroy(currentTile.gameObject);
             currentTile = null;
             timerOn = true;
@@ -71,7 +81,11 @@ public class tileManagement : MonoBehaviour
             colorSwitch = false; 
             index = Random.Range(0, tiles.Count);
             currentTile = tiles[index];
-            Debug.Log("" + currentTile.name);
+
+            taskIndex = Random.Range(0, tasks.Count);
+            currentTask = tasks[taskIndex];
+            //Debug.Log("" + currentTask);
+
             colorIndex = Random.Range(0, colors.Length);
             otherColor = colors[colorIndex];  
             currentTile.gameObject.GetComponent<Renderer>().material = otherColor; 
