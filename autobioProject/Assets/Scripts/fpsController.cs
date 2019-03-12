@@ -83,6 +83,11 @@ public class fpsController : MonoBehaviour
 
         inputVelocity = transform.forward * fpForwardBackward;
         inputVelocity += transform.right * fpSide;
+
+        if (tileManagement.Instance.tiles.Count == 0){
+            Debug.Log ("finished"); 
+        }
+
     }
 
     void FixedUpdate()
@@ -94,7 +99,7 @@ public class fpsController : MonoBehaviour
         playerRigidBody.velocity = new Vector3(xZvelocity.x, playerRigidBody.velocity.y, xZvelocity.y);
     }
 
-    public void OnTriggerEnter (Collider tile)
+    public void OnCollisionEnter (Collision tile)
     {
         if (tile.gameObject == tileManagement.Instance.currentTile.gameObject){
             tileManagement.Instance.timerOn = false;
@@ -104,7 +109,7 @@ public class fpsController : MonoBehaviour
         }
     }
 
-    public void OnTriggerExit(Collider tile)
+    public void OnCollisionExit(Collision tile)
     {
         if (tile.gameObject == tileManagement.Instance.currentTile.gameObject)
         {

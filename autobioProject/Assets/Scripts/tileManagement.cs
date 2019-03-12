@@ -90,5 +90,11 @@ public class tileManagement : MonoBehaviour
             otherColor = colors[colorIndex];  
             currentTile.gameObject.GetComponent<Renderer>().material = otherColor; 
         }
+
+        if (tiles.Count == 0){
+            thoughts.text = "Wow, I actually accomplished things today? Impressive.";
+            timerOn = false; 
+        }
+
     }
 }
