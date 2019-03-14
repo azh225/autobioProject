@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
 
 public class tileManagement : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public class tileManagement : MonoBehaviour
     public List<string> tasks = new List<string>(); 
     public string currentTask;
     int taskIndex;
-    public Text thoughts; 
+    public Text thoughts;
+    public Text moreThoughts; 
 
     public Material[] colors;
     public Material defaultColor;
@@ -84,7 +86,6 @@ public class tileManagement : MonoBehaviour
 
             taskIndex = Random.Range(0, tasks.Count);
             currentTask = tasks[taskIndex];
-            //Debug.Log("" + currentTask);
 
             colorIndex = Random.Range(0, colors.Length);
             otherColor = colors[colorIndex];  
@@ -93,7 +94,12 @@ public class tileManagement : MonoBehaviour
 
         if (tiles.Count == 0){
             thoughts.text = "Wow, I actually accomplished things today? Impressive.";
+            moreThoughts.text = "Press 'R' to Restart"; 
             timerOn = false; 
+        }
+
+        if (tiles.Count == 0 && Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadScene("ADHD"); 
         }
 
     }

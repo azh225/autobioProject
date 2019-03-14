@@ -85,7 +85,8 @@ public class fpsController : MonoBehaviour
         inputVelocity += transform.right * fpSide;
 
         if (tileManagement.Instance.tiles.Count == 0){
-            Debug.Log ("finished"); 
+            velocityModifier = 0;
+            jumpForce = 0; 
         }
 
     }
