@@ -8,6 +8,34 @@ public class tileManagement : MonoBehaviour
 {
     public static tileManagement Instance; 
 
+    [System.Serializable]
+    public struct Meds{
+        public string taskWords;
+        public GameObject taskTile;
+        public GameObject taskImage;
+        public Material taskColor; 
+    }
+
+    [System.Serializable]
+    public struct Eat{
+        public string taskWords;
+        public GameObject taskTile;
+        public GameObject taskImage;
+        public Material taskColor;
+    }
+
+    [System.Serializable]
+    public struct Homework{
+        public string taskWords;
+        public GameObject taskTile;
+        public GameObject taskImage;
+        public Material taskColor;
+    }
+
+    public Meds medsTask;
+    public Eat eatTask;
+    public Homework hwTask; 
+
     public float focusTime;
     public float focusTimeReset;
     public bool timerOn;
