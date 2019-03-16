@@ -16,6 +16,7 @@ public class fpsController : MonoBehaviour
 
     public Vector3 inputVelocity;
     public float velocityModifier;
+    public float maxSpeed;
 
     public float jumpForce;
     public float groundCheck;
@@ -84,7 +85,7 @@ public class fpsController : MonoBehaviour
         inputVelocity = transform.forward * fpForwardBackward;
         inputVelocity += transform.right * fpSide;
 
-        if (tileManagement.Instance.tiles.Count == 0){
+        if (tileManagement.Instance.tasks.Count == 0){
             velocityModifier = 0;
             jumpForce = 0; 
         }
@@ -96,13 +97,17 @@ public class fpsController : MonoBehaviour
         playerRigidBody.velocity += inputVelocity * velocityModifier;
         Vector2 xZvelocity = new Vector2(playerRigidBody.velocity.x, playerRigidBody.velocity.z);
 
-        xZvelocity = Vector2.ClampMagnitude(xZvelocity, 5f);
+        xZvelocity = Vector2.ClampMagnitude(xZvelocity, maxSpeed);
         playerRigidBody.velocity = new Vector3(xZvelocity.x, playerRigidBody.velocity.y, xZvelocity.y);
     }
 
     public void OnCollisionEnter (Collision tile)
     {
-        if (tile.gameObject == tileManagement.Instance.currentTile.gameObject){
+        if (tileManagement.Instance.currentTask == null)
+        {
+            return;
+        }
+        if (tile.gameObject == tileManagement.Instance.currentTask.gameObject){
             tileManagement.Instance.timerOn = false;
             timeEnd = Time.time + timeAmount;
             percentTimer = true;
@@ -112,7 +117,10 @@ public class fpsController : MonoBehaviour
 
     public void OnCollisionExit(Collision tile)
     {
-        if (tile.gameObject == tileManagement.Instance.currentTile.gameObject)
+        if(tileManagement.Instance.currentTask == null){
+            return;
+        }
+        if (tile.gameObject == tileManagement.Instance.currentTask.gameObject)
         {
             tileManagement.Instance.timerOn = true;
             percentTimer = false; 
