@@ -26,9 +26,13 @@ public class fpsController : MonoBehaviour
     public float timeAmount;
     public Image timeBar;
 
+    public AudioSource song;
+    public float fadeOutTime; 
+
     void Start()
     {
         playerRigidBody = GetComponent<Rigidbody>();
+        song = GetComponent<AudioSource>(); 
         percentTimer = false; 
     }
 
@@ -87,7 +91,8 @@ public class fpsController : MonoBehaviour
 
         if (tileManagement.Instance.tasks.Count == 0){
             velocityModifier = 0;
-            jumpForce = 0; 
+            jumpForce = 0;
+            FadeOut(); 
         }
 
     }
@@ -125,5 +130,9 @@ public class fpsController : MonoBehaviour
             tileManagement.Instance.timerOn = true;
             percentTimer = false; 
         }
+    }
+
+    public void FadeOut(){
+        song.volume = song.volume - (Time.deltaTime / (fadeOutTime + 1));
     }
 }
